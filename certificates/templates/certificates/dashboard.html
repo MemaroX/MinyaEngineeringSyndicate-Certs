@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم وإدارة الطوابير - نقابة المهندسين المصرية</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="{% static 'certificates/style.css' %}">
+</head>
+<body>
+
+  <main class="container container-dashboard">
+    
+    <!-- Link to Form -->
+    <a href="{% url 'apply_view' %}" class="nav-link admin-link">
+      <svg style="width: 16px; height: 16px; fill: currentColor; transform: scaleX(-1);" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      الذهاب لنموذج الحجز
+    </a>
+
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">لوحة المراقبة وإدارة الطوابير</h1>
+      <p class="subtitle">إدارة حدود نظام استلام الشهادات والتحكم بالقيد والتقارير اليومية</p>
+    </header>
+
+    <!-- Date Filter Bar -->
+    <section class="filter-bar">
+      <form method="GET" action="" class="filter-group">
+        <label for="date-select" style="margin-bottom: 0;">عرض تقرير يوم:</label>
+        <input type="date" id="date-select" name="date" value="{{ target_date }}" style="width: auto; padding: 0.5rem 1rem;">
+        <button type="submit" class="filter-btn">تحديث التقرير</button>
+      </form>
+      <div style="font-weight: 700; color: var(--accent);">
+        تقرير تاريخ: {{ target_date_formatted }}
+      </div>
+    </section>
+
+    <!-- Metrics Cards Grid -->
+    <section class="metrics-row">
+      
+      <!-- Morning Metrics -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>حالة الفترة الصباحية</span>
+          <span class="metric-badge morning">صباحي</span>
+        </div>
+        <div class="metric-value">{{ morning_certs_total }} / {{ config.daily_limit_morning }}</div>
+        <div class="metric-footer">
+          المتبقي المتاح: {{ morning_certs_left }} شهادة
+        </div>
+      </div>
+
+      <!-- Evening Metrics -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>حالة الفترة المسائية</span>
+          <span class="metric-badge evening">مسائي</span>
+        </div>
+        <div class="metric-value">{{ evening_certs_total }} / {{ config.daily_limit_evening }}</div>
+        <div class="metric-footer">
+          المتبقي المتاح: {{ evening_certs_left }} شهادة
+        </div>
+      </div>
+
+      <!-- Total Applications of the day -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>إجمالي المهندسين المسجلين اليوم</span>
+          <span class="metric-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--primary);">مسجلين</span>
+        </div>
+        <div class="metric-value" style="color: var(--primary);">
+          {{ morning_queue.count|add:evening_queue.count }} مهندس
+        </div>
+        <div class="metric-footer">
+          إجمالي الشهادات المطلوبة: {{ morning_certs_total|add:evening_certs_total }} شهادة
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Core Layout: Queues (Right/Left on desktop) and Settings (Left sidebar) -->
+    <div class="dashboard-grid">
+      
+      <!-- Right Side: The Queues -->
+      <div class="queues-container">
+        
+        <!-- Morning Queue -->
+        <div class="queue-section">
+          <div class="queue-title-wrapper">
+            <h2 class="queue-title">
+              <span class="queue-badge morning" style="font-size: 0.9rem;">صباحي</span>
+              طابور الفترة الصباحية (حسب أسبقية الحجز FIFO)
+            </h2>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">
+              إجمالي الشهادات: {{ morning_certs_total }}
+            </span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>الترتيب</th>
+                  <th>الاسم</th>
+                  <th>رقم القيد</th>
+                  <th>الشعبة</th>
+                  <th>الفئة</th>
+                  <th>الشهادات</th>
+                  <th>توقيت الحجز</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for app in morning_queue %}
+                <tr>
+                  <td><span class="queue-badge number">{{ forloop.counter }}</span></td>
+                  <td style="font-weight: 700;">{{ app.engineer_name }}</td>
+                  <td>{{ app.registration_num }}</td>
+                  <td>{{ app.division }}</td>
+                  <td>{{ app.get_category_display }}</td>
+                  <td style="font-weight: 700; color: var(--accent);">{{ app.certificate_count }}</td>
+                  <td style="font-size: 0.8rem; color: var(--text-muted);">{{ app.created_at|date:"h:i:s A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
+                    لا توجد حجوزات مسجلة في الفترة الصباحية لهذا اليوم.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Evening Queue -->
+        <div class="queue-section">
+          <div class="queue-title-wrapper">
+            <h2 class="queue-title">
+              <span class="queue-badge evening" style="font-size: 0.9rem;">مسائي</span>
+              طابور الفترة المسائية (حسب أسبقية الحجز FIFO)
+            </h2>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">
+              إجمالي الشهادات: {{ evening_certs_total }}
+            </span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>الترتيب</th>
+                  <th>الاسم</th>
+                  <th>رقم القيد</th>
+                  <th>الشعبة</th>
+                  <th>الفئة</th>
+                  <th>الشهادات</th>
+                  <th>توقيت الحجز</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for app in evening_queue %}
+                <tr>
+                  <td><span class="queue-badge number">{{ forloop.counter }}</span></td>
+                  <td style="font-weight: 700;">{{ app.engineer_name }}</td>
+                  <td>{{ app.registration_num }}</td>
+                  <td>{{ app.division }}</td>
+                  <td>{{ app.get_category_display }}</td>
+                  <td style="font-weight: 700; color: var(--accent);">{{ app.certificate_count }}</td>
+                  <td style="font-size: 0.8rem; color: var(--text-muted);">{{ app.created_at|date:"h:i:s A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
+                    لا توجد حجوزات مسجلة في الفترة المسائية لهذا اليوم.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left Side: Config Panel (Admin Sidebar) -->
+      <aside class="settings-panel">
+        <h2 class="settings-title">إعدادات التحكم والقيود</h2>
+        
+        <form method="POST" action="" class="settings-input-group">
+          {% csrf_token %}
+          
+          <!-- Daily Capacities Section -->
+          <h3 class="settings-section-title">السعة اليومية للفترات</h3>
+          
+          <div class="settings-input-row">
+            <label for="limit_morning">الفترة الصباحية:</label>
+            <input type="number" id="limit_morning" name="limit_morning" value="{{ config.daily_limit_morning }}" required min="1">
+          </div>
+          
+          <div class="settings-input-row">
+            <label for="limit_evening">الفترة المسائية:</label>
+            <input type="number" id="limit_evening" name="limit_evening" value="{{ config.daily_limit_evening }}" required min="1">
+          </div>
+
+          <!-- Monthly Limits Section -->
+          <h3 class="settings-section-title">الحد الشهري للفئات (شهادة/شهر)</h3>
+
+          <div class="settings-input-row">
+            <label for="limit_engineer">مهندس عادي:</label>
+            <input type="number" id="limit_engineer" name="limit_engineer" value="{{ config.monthly_limit_engineer }}" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_consultant">مهندس استشاري:</label>
+            <input type="number" id="limit_consultant" name="limit_consultant" value="{{ config.monthly_limit_consultant }}" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_concrete_consultant">استشاري خرسانة:</label>
+            <input type="number" id="limit_concrete_consultant" name="limit_concrete_consultant" value="{{ config.monthly_limit_concrete_consultant }}" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_specialized_office">مكتب نوعي:</label>
+            <input type="number" id="limit_specialized_office" name="limit_specialized_office" value="{{ config.monthly_limit_specialized_office }}" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_multi_office">مكتب متعدد:</label>
+            <input type="number" id="limit_multi_office" name="limit_multi_office" value="{{ config.monthly_limit_multi_office }}" required min="1">
+          </div>
+
+          <!-- Telegram Bot Settings Section -->
+          <h3 class="settings-section-title">إشعارات تلجرام للبوت</h3>
+
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label for="telegram_token" style="font-size: 0.75rem;">توكن البوت (Bot Token):</label>
+            <input type="text" id="telegram_token" name="telegram_token" value="{{ config.telegram_bot_token }}" placeholder="أدخل توكن البوت" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+          </div>
+
+          <div class="form-group">
+            <label for="telegram_chat_id" style="font-size: 0.75rem;">معرف شات المسؤول (Chat ID):</label>
+            <input type="text" id="telegram_chat_id" name="telegram_chat_id" value="{{ config.telegram_chat_id }}" placeholder="أدخل معرف الشات" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+          </div>
+
+          <button type="submit" class="submit-btn" style="padding: 0.8rem; font-size: 0.95rem;">حفظ التغييرات والحدود</button>
+        </form>
+      </aside>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

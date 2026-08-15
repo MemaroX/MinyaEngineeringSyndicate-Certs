@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نموذج حجز واستلام شهادات نقابة المهندسين المصرية - بوابة الخدمات الإلكترونية للأعضاء للتسجيل وحجز المواعيد الصباحية والمسائية.">
+  <title>نقابة المهندسين المصرية - حجز استلام الشهادات</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="container">
+    
+    <!-- Link to Admin Dashboard -->
+    <a href="dashboard.html" class="nav-link admin-link">
+      <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+      </svg>
+      لوحة تحكم المسؤول (المدير)
+    </a>
+
+    <!-- Header with Syndicate Info & Logo -->
+    <header class="header">
+      <div class="logo-wrapper">
+        <svg class="logo-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+      </div>
+      <h1 class="title" id="main-heading">نقابة المهندسين المصرية</h1>
+      <p class="subtitle">نموذج تسجيل طلب استلام الشهادات الهندسية</p>
+    </header>
+
+    <!-- Interactive Informational Banner with Rules -->
+    <div class="info-banner" role="alert">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <div>
+        <strong>ضوابط ومواعيد الحجز والاستلام:</strong>
+        <p>• العطلات الأسبوعية الرسمية للنقابة: يومي <strong>الخميس والجمعة</strong>.</p>
+        <p id="limit-info-text">• السعة اليومية القصوى للفترات: <strong>150</strong> شهادة صباحاً / <strong>200</strong> شهادة مساءً.</p>
+        <p>• الفترة الصباحية: الاستلام متاح حتى الساعة 9:00 صباح نفس اليوم كحد أقصى للتسجيل.</p>
+        <p>• الفترة المسائية: الاستلام متاح حتى الساعة 5:00 مساءً نفس اليوم كحد أقصى للتسجيل.</p>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <form id="syndicate-form" novalidate>
+      <div class="form-grid">
+        
+        <!-- Engineer Name -->
+        <div class="form-group full-width">
+          <label for="engineer-name">
+            اسم المهندس (ثلاثي على الأقل) <span class="required">*</span>
+          </label>
+          <input type="text" id="engineer-name" placeholder="أدخل اسمك ثلاثياً باللغة العربية" required autocomplete="name">
+          <div class="error-msg" id="name-error"></div>
+        </div>
+
+        <!-- Registration Number -->
+        <div class="form-group">
+          <label for="registration-num">
+            رقم القيد النقابي <span class="required">*</span>
+          </label>
+          <input type="text" id="registration-num" placeholder="مثال: 12345" required inputmode="numeric">
+          <div class="error-msg" id="reg-error"></div>
+        </div>
+
+        <!-- Engineering Division -->
+        <div class="form-group">
+          <label for="division">
+            الشعبة الهندسية <span class="required">*</span>
+          </label>
+          <input type="text" id="division" placeholder="أدخل الشعبة الهندسية" required>
+          <div class="error-msg" id="division-error"></div>
+        </div>
+
+        <!-- Registry Number -->
+        <div class="form-group">
+          <label for="registry-num">
+            رقم السجل <span class="required">*</span>
+          </label>
+          <input type="text" id="registry-num" placeholder="أدخل رقم السجل الخاص بك" required inputmode="numeric">
+          <div class="error-msg" id="registry-error"></div>
+        </div>
+
+        <!-- Engineer Category -->
+        <div class="form-group">
+          <label for="category">
+            فئة المهندس <span class="required">*</span>
+          </label>
+          <select id="category" required>
+            <option value="" disabled selected>اختر فئة المهندس</option>
+          </select>
+          <div class="error-msg" id="category-error"></div>
+        </div>
+
+        <!-- Number of Certificates -->
+        <div class="form-group full-width">
+          <label>
+            عدد الشهادات المطلوبة (من 1 إلى 20) <span class="required">*</span>
+          </label>
+          <div class="counter-wrapper">
+            <button type="button" class="counter-btn" id="decrease-certs" aria-label="تقليل العدد">-</button>
+            <input type="number" id="cert-count" class="counter-value" value="1" min="1" max="20" readonly>
+            <button type="button" class="counter-btn" id="increase-certs" aria-label="زيادة العدد">+</button>
+          </div>
+          <div class="error-msg" id="certs-error"></div>
+        </div>
+
+        <!-- Pickup Date Selection (Interactive Calendar Container) -->
+        <div class="form-group full-width">
+          <label>
+            تاريخ ووقت الاستلام المفضل <span class="required">*</span>
+          </label>
+          
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <span class="calendar-title" id="cal-month-title"></span>
+              <div class="calendar-nav">
+                <button type="button" class="calendar-nav-btn" id="cal-prev" aria-label="الشهر السابق">&rarr;</button>
+                <button type="button" class="calendar-nav-btn" id="cal-next" aria-label="الشهر التالي">&larr;</button>
+              </div>
+            </div>
+            
+            <div class="calendar-weekdays">
+              <div>أحد</div>
+              <div>إثنين</div>
+              <div>ثلاثاء</div>
+              <div>أربعاء</div>
+              <div>خميس</div>
+              <div>جمعة</div>
+              <div>سبت</div>
+            </div>
+            
+            <div class="calendar-grid" id="cal-days-grid"></div>
+          </div>
+          
+          <!-- Dynamic Time Slots Section (Appears after choosing date) -->
+          <div id="slots-section" style="display: none;">
+            <label style="margin-top: 1.25rem;">الفترات الزمنية المتاحة لليوم المختار:</label>
+            <div class="slots-container" id="slots-grid"></div>
+          </div>
+
+          <div class="error-msg" id="date-error"></div>
+        </div>
+
+      </div>
+
+      <!-- Action Submission Button -->
+      <button type="submit" class="submit-btn" id="submit-btn" disabled>
+        <span>تسجيل وحجز الطلب</span>
+        <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="footer-note">
+      * جميع الطلبات تخضع للتحقق المالي والنقابي والحدود القصوى الشهرية المعتمدة لكل فئة.
+    </div>
+
+  </main>
+
+  <!-- Success Notification Modal Layer -->
+  <div class="overlay" id="success-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="success-card">
+      <div class="success-icon-wrapper">
+        <svg style="width: 40px; height: 40px; fill: currentColor;" viewBox="0 0 24 24">
+          <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+        </svg>
+      </div>
+      <h2 class="success-title" id="modal-title">تم تسجيل طلبك بنجاح!</h2>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem;">لقد تم حفظ حجز الموعد بنجاح ومحاكاة إرساله عبر البوت اللامركزي.</p>
+      
+      <!-- Receipt Details -->
+      <div class="receipt-details">
+        <div class="receipt-row">
+          <span class="receipt-label">الاسم:</span>
+          <span class="receipt-val" id="receipt-name"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">رقم القيد:</span>
+          <span class="receipt-val" id="receipt-reg"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">الشعبة:</span>
+          <span class="receipt-val" id="receipt-division"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">عدد الشهادات:</span>
+          <span class="receipt-val" id="receipt-certs"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">تاريخ الاستلام:</span>
+          <span class="receipt-val" id="receipt-date"></span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">الفترة:</span>
+          <span class="receipt-val" id="receipt-slot"></span>
+        </div>
+      </div>
+
+      <button type="button" class="close-btn" id="close-modal">إغلاق وتأكيد</button>
+    </div>
+  </div>
+
+  <!-- Supabase JS Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Application Logic JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

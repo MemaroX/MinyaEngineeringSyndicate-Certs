@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم وإدارة الطوابير - نقابة المهندسين المصرية</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="container container-dashboard">
+    
+    <!-- Link to Form -->
+    <a href="index.html" class="nav-link admin-link">
+      <svg style="width: 16px; height: 16px; fill: currentColor; transform: scaleX(-1);" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+      الذهاب لنموذج الحجز
+    </a>
+
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">لوحة المراقبة وإدارة الطوابير</h1>
+      <p class="subtitle">إدارة حدود نظام استلام الشهادات والتحكم بالقيد والتقارير اليومية (Serverless)</p>
+    </header>
+
+    <!-- Date Filter Bar -->
+    <section class="filter-bar">
+      <div class="filter-group">
+        <label for="date-select" style="margin-bottom: 0;">عرض تقرير يوم:</label>
+        <input type="date" id="date-select" style="width: auto; padding: 0.5rem 1rem;">
+      </div>
+      <div id="report-date-text" style="font-weight: 700; color: var(--accent);">
+        تقرير تاريخ:
+      </div>
+    </section>
+
+    <!-- Metrics Cards Grid -->
+    <section class="metrics-row">
+      
+      <!-- Morning Metrics -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>حالة الفترة الصباحية</span>
+          <span class="metric-badge morning">صباحي</span>
+        </div>
+        <div class="metric-value" id="morning-total-val">0 / 150</div>
+        <div class="metric-footer" id="morning-left-val">
+          المتبقي المتاح: 150 شهادة
+        </div>
+      </div>
+
+      <!-- Evening Metrics -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>حالة الفترة المسائية</span>
+          <span class="metric-badge evening">مسائي</span>
+        </div>
+        <div class="metric-value" id="evening-total-val">0 / 200</div>
+        <div class="metric-footer" id="evening-left-val">
+          المتبقي المتاح: 200 شهادة
+        </div>
+      </div>
+
+      <!-- Total Applications of the day -->
+      <div class="metric-card">
+        <div class="metric-header">
+          <span>إجمالي المهندسين المسجلين اليوم</span>
+          <span class="metric-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--primary);">مسجلين</span>
+        </div>
+        <div class="metric-value" id="total-engineers-val" style="color: var(--primary);">0 مهندس</div>
+        <div class="metric-footer" id="total-certs-val">
+          إجمالي الشهادات المطلوبة: 0 شهادة
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Core Layout: Queues and Settings -->
+    <div class="dashboard-grid">
+      
+      <!-- Right Side: The Queues -->
+      <div class="queues-container">
+        
+        <!-- Morning Queue -->
+        <div class="queue-section">
+          <div class="queue-title-wrapper">
+            <h2 class="queue-title">
+              <span class="queue-badge morning" style="font-size: 0.9rem;">صباحي</span>
+              طابور الفترة الصباحية (حسب أسبقية الحجز FIFO)
+            </h2>
+          </div>
+
+          <div class="table-responsive">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>الترتيب</th>
+                  <th>الاسم</th>
+                  <th>رقم القيد</th>
+                  <th>الشعبة</th>
+                  <th>الفئة</th>
+                  <th>الشهادات</th>
+                  <th>توقيت الحجز</th>
+                </tr>
+              </thead>
+              <tbody id="morning-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Evening Queue -->
+        <div class="queue-section">
+          <div class="queue-title-wrapper">
+            <h2 class="queue-title">
+              <span class="queue-badge evening" style="font-size: 0.9rem;">مسائي</span>
+              طابور الفترة المسائية (حسب أسبقية الحجز FIFO)
+            </h2>
+          </div>
+
+          <div class="table-responsive">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>الترتيب</th>
+                  <th>الاسم</th>
+                  <th>رقم القيد</th>
+                  <th>الشعبة</th>
+                  <th>الفئة</th>
+                  <th>الشهادات</th>
+                  <th>توقيت الحجز</th>
+                </tr>
+              </thead>
+              <tbody id="evening-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left Side: Config Panel (Admin Sidebar) -->
+      <aside class="settings-panel">
+        <h2 class="settings-title">إعدادات التحكم والقيود</h2>
+        
+        <form id="settings-form" class="settings-input-group">
+          
+          <!-- Daily Capacities Section -->
+          <h3 class="settings-section-title">السعة اليومية للفترات</h3>
+          
+          <div class="settings-input-row">
+            <label for="limit_morning">الفترة الصباحية:</label>
+            <input type="number" id="limit_morning" required min="1">
+          </div>
+          
+          <div class="settings-input-row">
+            <label for="limit_evening">الفترة المسائية:</label>
+            <input type="number" id="limit_evening" required min="1">
+          </div>
+
+          <!-- Monthly Limits Section -->
+          <h3 class="settings-section-title">الحد الشهري للفئات (شهادة/شهر)</h3>
+
+          <div class="settings-input-row">
+            <label for="limit_engineer">مهندس عادي:</label>
+            <input type="number" id="limit_engineer" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_consultant">مهندس استشاري:</label>
+            <input type="number" id="limit_consultant" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_concrete_consultant">استشاري خرسانة:</label>
+            <input type="number" id="limit_concrete_consultant" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_specialized_office">مكتب نوعي:</label>
+            <input type="number" id="limit_specialized_office" required min="1">
+          </div>
+
+          <div class="settings-input-row">
+            <label for="limit_multi_office">مكتب متعدد:</label>
+            <input type="number" id="limit_multi_office" required min="1">
+          </div>
+
+          <!-- Telegram Bot Settings Section -->
+          <h3 class="settings-section-title">إشعارات تلجرام للبوت</h3>
+
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label for="telegram_token" style="font-size: 0.75rem;">توكن البوت (Bot Token):</label>
+            <input type="text" id="telegram_token" placeholder="أدخل توكن البوت" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+          </div>
+
+          <div class="form-group">
+            <label for="telegram_chat_id" style="font-size: 0.75rem;">معرف شات المسؤول (Chat ID):</label>
+            <input type="text" id="telegram_chat_id" placeholder="أدخل معرف الشات" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+          </div>
+
+          <button type="submit" class="submit-btn" style="padding: 0.8rem; font-size: 0.95rem;">حفظ التغييرات والحدود</button>
+        </form>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Supabase JS Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Dashboard Logic JS -->
+  <script src="dashboard.js"></script>
+</body>
+</html>
