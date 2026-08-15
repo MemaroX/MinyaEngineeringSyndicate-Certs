@@ -445,7 +445,7 @@ function showSuccessModal(data) {
   queueRow.className = 'receipt-row';
   queueRow.id = 'receipt-queue-row';
   queueRow.innerHTML = `
-    <span class="receipt-label">ترتيبك في طابور الفترة:</span>
+    <span class="receipt-label">ترتيب الحجز للفترة:</span>
     <span class="receipt-val" style="color: var(--accent);">${data.queue_pos}</span>
   `;
   document.querySelector('.receipt-details').appendChild(queueRow);

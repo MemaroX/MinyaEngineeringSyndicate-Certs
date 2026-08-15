@@ -199,7 +199,7 @@ BEGIN
                     '📄 *عدد الشهادات المطلوبة:* ' || NEW.certificate_count || ' شهادة' || chr(10) ||
                     '📅 *تاريخ الاستلام:* ' || NEW.pickup_date || chr(10) ||
                     '⏰ *الفترة:* ' || slot_ar || chr(10) || chr(10) ||
-                    '⏱️ *ترتيب الحجز في طابور الفترة:* ' || queue_pos || ' (الأسبق فالأسبق).';
+                    '⏱️ *ترتيب الحجز للفترة:* ' || queue_pos || ' (حسب أسبقية التسجيل).';
 
     -- Async POST to Telegram via pg_net
     PERFORM net.http_post(

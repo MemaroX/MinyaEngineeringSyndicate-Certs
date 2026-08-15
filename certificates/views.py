@@ -201,7 +201,7 @@ def send_telegram_alert(app, monthly_total, monthly_limit, queue_pos):
         f"📊 *إحصائيات الشهر للمهندس ({app.pickup_date.strftime('%m/%Y')}):*\n"
         f"├ إجمالي الحجوزات: {monthly_total} / {monthly_limit} شهادة\n"
         f"└ المتبقي المتاح: {max(0, monthly_limit - monthly_total)} شهادة\n\n"
-        f"⏱️ *ترتيب الحجز في طابور الفترة:* {queue_pos} (الأسبق فالأسبق)."
+        f"⏱️ *ترتيب الحجز للفترة:* {queue_pos} (حسب أسبقية التسجيل)."
     )
     
     payload = {
