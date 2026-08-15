@@ -48,12 +48,6 @@ async function fetchConfiguration() {
     
     if (error) throw error;
     state.config = data;
-    
-    // Update daily limits text in the HTML banner
-    const limitBannerText = document.getElementById('limit-info-text');
-    if (limitBannerText) {
-      limitBannerText.innerHTML = `• السعة اليومية القصوى للفترات: <strong>${data.daily_limit_morning}</strong> شهادة صباحاً / <strong>${data.daily_limit_evening}</strong> شهادة مساءً.`;
-    }
   } catch (err) {
     console.error('Error fetching Supabase configuration:', err);
   }
