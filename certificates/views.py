@@ -192,6 +192,7 @@ def send_telegram_alert(app, monthly_total, monthly_limit, queue_pos):
         f"🏛️ *طلب حجز شهادات جديد - نقابة المهندسين*\n\n"
         f"👤 *المهندس:* {app.engineer_name}\n"
         f"🔢 *رقم القيد:* {app.registration_num}\n"
+        f"🔢 *رقم السجل:* {app.registry_num}\n"
         f"📂 *الشعبة:* {app.division}\n"
         f"💼 *الفئة:* {app.get_category_display()}\n"
         f"📄 *عدد الشهادات المطلوبة:* {app.certificate_count} شهادة\n"

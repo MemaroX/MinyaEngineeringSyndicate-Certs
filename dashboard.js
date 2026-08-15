@@ -105,7 +105,7 @@ function renderQueueTable(tableBodyId, data) {
   if (data.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
+        <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem 0;">
           لا توجد حجوزات مسجلة لهذه الفترة اليوم.
         </td>
       </tr>
@@ -130,6 +130,7 @@ function renderQueueTable(tableBodyId, data) {
       <td><span class="queue-badge number">${index + 1}</span></td>
       <td style="font-weight: 700;">${escapeHtml(app.engineer_name)}</td>
       <td>${escapeHtml(app.registration_num)}</td>
+      <td>${escapeHtml(app.registry_num || '')}</td>
       <td>${escapeHtml(app.division)}</td>
       <td>${categoryText}</td>
       <td style="font-weight: 700; color: var(--accent);">${app.certificate_count}</td>

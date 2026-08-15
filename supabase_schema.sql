@@ -193,6 +193,7 @@ BEGIN
     message_text := '🏛️ *طلب حجز شهادات جديد - نقابة المهندسين*' || chr(10) || chr(10) ||
                     '👤 *المهندس:* ' || NEW.engineer_name || chr(10) ||
                     '🔢 *رقم القيد:* ' || NEW.registration_num || chr(10) ||
+                    '🔢 *رقم السجل:* ' || NEW.registry_num || chr(10) ||
                     '📂 *الشعبة:* ' || NEW.division || chr(10) ||
                     '💼 *الفئة:* ' || category_ar || chr(10) ||
                     '📄 *عدد الشهادات المطلوبة:* ' || NEW.certificate_count || ' شهادة' || chr(10) ||
