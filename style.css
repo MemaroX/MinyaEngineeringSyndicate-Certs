@@ -217,12 +217,7 @@ select:focus {
   background: rgba(10, 20, 15, 0.8);
 }
 
-/* Style Select Options */
-select option {
-  background-color: #0b140f;
-  color: var(--text-primary);
-  padding: 0.5rem;
-}
+
 
 /* Certificates Quantity Input Group (Interactive Counter) */
 .counter-wrapper {
