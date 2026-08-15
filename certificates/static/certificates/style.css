@@ -906,14 +906,15 @@ select:focus {
 }
 
 /* Mobile Responsive Optimizations */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   body {
     padding: 1rem 0.5rem;
   }
   
   .container {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
     border-radius: 16px;
+    margin: 0.5rem auto;
   }
   
   .nav-link.admin-link {
@@ -929,26 +930,53 @@ select:focus {
   }
   
   .logo-wrapper {
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
   }
   
   .logo-svg {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
   
   .calendar-container {
-    padding: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  .calendar-header {
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+  }
+  
+  .calendar-header span {
+    font-size: 0.95rem;
   }
   
   .calendar-weekdays {
     font-size: 0.7rem;
+    margin-bottom: 0.35rem;
+  }
+  
+  .calendar-grid {
+    gap: 4px;
   }
   
   .calendar-day {
     font-size: 0.75rem;
     border-radius: 6px;
+    padding: 4px 0;
+  }
+
+  .calendar-day.weekend::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background-color: var(--danger);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 3px;
   }
   
   .slots-container {
@@ -961,12 +989,17 @@ select:focus {
   }
   
   .success-card {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
+    width: 95%;
   }
   
   .receipt-details {
     padding: 0.75rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+  }
+  
+  .receipt-row {
+    font-size: 0.8rem;
   }
 
   /* Admin Dashboard Mobile fixes */
@@ -982,7 +1015,12 @@ select:focus {
   
   .queue-table th, 
   .queue-table td {
-    padding: 0.6rem 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.6rem 0.4rem;
+    font-size: 0.75rem;
+  }
+  
+  .settings-panel {
+    padding: 1rem;
+    border-radius: 16px;
   }
 }
