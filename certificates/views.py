@@ -7,6 +7,8 @@ from django.utils import timezone
 import json
 import datetime
 import requests
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import SyndicateConfiguration, Application
 
@@ -214,6 +216,7 @@ def send_telegram_alert(app, monthly_total, monthly_limit, queue_pos):
         return False
 
 
+@login_required(login_url='login')
 def admin_dashboard(request):
     """
     Stunning dashboard for admins to manage configuration settings, limits, and view day-by-day queues.
@@ -276,3 +279,27 @@ def admin_dashboard(request):
         'evening_certs_left': max(0, config.daily_limit_evening - evening_certs_total),
     }
     return render(request, 'certificates/dashboard.html', context)
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('admin_dashboard')
+    
+    error = None
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('admin_dashboard')
+        else:
+            error = "اسم المستخدم أو كلمة المرور غير صحيحة."
+            
+    return render(request, 'certificates/login.html', {'error': error})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
