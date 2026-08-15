@@ -904,3 +904,85 @@ select:focus {
   left: 1.5rem;
   margin-bottom: 0;
 }
+
+/* Mobile Responsive Optimizations */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+  
+  .container {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+  
+  .nav-link.admin-link {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .title {
+    font-size: 1.4rem;
+  }
+  
+  .logo-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .logo-svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .calendar-container {
+    padding: 0.75rem;
+  }
+  
+  .calendar-weekdays {
+    font-size: 0.7rem;
+  }
+  
+  .calendar-day {
+    font-size: 0.75rem;
+    border-radius: 6px;
+  }
+  
+  .slots-container {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .slot-option {
+    padding: 0.75rem;
+  }
+  
+  .success-card {
+    padding: 1.5rem;
+  }
+  
+  .receipt-details {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  /* Admin Dashboard Mobile fixes */
+  .metrics-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .queue-table th, 
+  .queue-table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
